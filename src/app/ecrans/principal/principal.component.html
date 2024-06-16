@@ -1,0 +1,95 @@
+<main>
+  <aside>
+    <div class="liste-serveur">
+      <div class="serveur" routerLink="/ajout-serveur" matTooltip="Créer un nouveau serveur" matTooltipPosition="right">
+        <mat-icon fontIcon="add_circle"></mat-icon>
+      </div>
+
+      @for (serveur of listeServeur; track serveur._id) {
+
+      <div class="serveur" [matTooltip]="serveur.nom" matTooltipPosition="right"
+        routerLink="/principal/{{serveur._id}}">
+        <img [attr.src]="serveur.urlLogo" />
+      </div>
+
+      <mat-form-field>
+        <mat-label>{{serveur.nom}}</mat-label>
+        <mat-select>
+          @for (salon of serveur.salons; track salon) {
+          <mat-option [value]="serveur._id"
+            routerLink="/principal/{{serveur._id}}/{{salon.nom}}">{{salon.nom}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+
+      }
+    </div>
+
+    <div class="info-profil">
+      <img class="avatar"
+        src="https://play-lh.googleusercontent.com/0goocG7RJZDZ41ShfBPl-h7ctwHKHjqzn4nSImyL8_RWyXqeYNKw-CdGAKhgPGZG5Es" />
+      <span>John DOE</span>
+      <mat-icon class="bouton-profil" fontIcon="settings" routerLink="/profil"></mat-icon>
+    </div>
+  </aside>
+
+  <aside>
+    <div class="ajout-salon">
+      <span routerLink="/ajout-salon">Ajouter une chaine</span>
+      <mat-icon class="bouton-ajout-salon" fontIcon="add"></mat-icon>
+    </div>
+  </aside>
+
+  <div class="liste-message">
+    <div>
+      @if (allMessages.length) {
+        @for (message of allMessages; track message) {
+        <div class="message">
+          <img class="avatar"
+            src="https://play-lh.googleusercontent.com/0goocG7RJZDZ41ShfBPl-h7ctwHKHjqzn4nSImyL8_RWyXqeYNKw-CdGAKhgPGZG5Es" />
+          <div class="partie-message">
+            <div class="utilisateur">{{message.utilisateur}}</div>
+            
+  
+            <p class="contenu">
+              {{message.contenu}}
+            </p>
+            
+  
+          </div>
+        </div>
+      }
+      }@else {
+        <div>
+          <p>Aucun message dans ce salon.</p>
+        </div>
+      }
+      
+
+
+      <!-- <div class="message">
+      <img class="avatar"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRls5vfL2feg44afSnF6H2fS77qPl0V2phQg&s" />
+      <div class="partie-message">
+        <div class="utilisateur">Tom SAWYER</div>
+        <p class="contenu">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos atque
+          iusto dolorem consequatur error! Itaque, nobis consequuntur veritatis
+          quibusdam sed illum, inventore officiis, et reprehenderit dicta dolor
+          earum dolorum laborum.
+        </p>
+      </div>
+    </div> -->
+    </div>
+    <div class="contenu-message">
+      <form [formGroup]="message" (ngSubmit)="onEnvoiMessage()">
+        <mat-form-field>
+          <mat-label>Ecrire un message...</mat-label>
+          <textarea formControlName="contenu" matInput (keydown)="onKeyPress($event)"></textarea>
+        </mat-form-field>
+        <button type="submit" [disabled]="!message.valid" mat-flat-button color="primary">Envoyer</button>
+      </form>
+    </div>
+  </div>
+</main>

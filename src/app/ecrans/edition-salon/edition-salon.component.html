@@ -1,0 +1,36 @@
+<div>
+  <h3>Créer un nouveau salon</h3>
+  <form class="formulaire" [formGroup]="formulaire" (ngSubmit)="onAjoutSalon()">
+    <mat-form-field>
+      <mat-label>Nom du salon</mat-label>
+      <input matInput placeholder="Ex. Stagiaire MNS" formControlName="nom" />
+
+      @if(formulaire.get("nom")?.hasError("required")) {
+      <mat-error>Le nom du salon est obligatoire</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="public">Public</mat-slide-toggle>
+
+    <h4>Selectionnez le serveur</h4>
+    <mat-form-field>
+      <mat-label>Serveurs</mat-label>
+      <mat-select formControlName="serveur">
+        @for (serveur of listeServeur; track serveur._id) {
+        <mat-option [value]="serveur._id">{{serveur.nom}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+
+    <div class="actions">
+      <button type="submit" mat-flat-button color="primary">
+        Ajouter le salon
+      </button>
+
+      <button type="button" mat-flat-button color="accent" routerLink="/principal">
+        Retour
+      </button>
+    </div>
+  </form>
+</div>
